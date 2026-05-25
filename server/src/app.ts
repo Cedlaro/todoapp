@@ -8,14 +8,12 @@ import authRoutes from './routes/auth.routes';
 import taskRoutes from './routes/task.routes';
 
 const app = express();
-const isProd = process.env.NODE_ENV === 'production';
 
 app.set('trust proxy', 1); // or true, if needed for your setup
 
-app.use(rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100
-}));
+const isProd = process.env.NODE_ENV === 'production';
+
+
 
 if (!isProd) {
   app.use(cors({
