@@ -1,6 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import express from 'express';
+import rateLimit from 'express-rate-limit';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import authRoutes from './routes/auth.routes';
@@ -8,6 +9,13 @@ import taskRoutes from './routes/task.routes';
 
 const app = express();
 const isProd = process.env.NODE_ENV === 'production';
+
+app.set('trust proxy', 1); // or true, if needed for your setup
+
+app.use(rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100
+}));
 
 if (!isProd) {
   app.use(cors({
