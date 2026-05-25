@@ -8,9 +8,6 @@ import authRoutes from './routes/auth.routes';
 import taskRoutes from './routes/task.routes';
 
 const app = express();
-
-app.set('trust proxy', 1); // or true, if needed for your setup
-
 const isProd = process.env.NODE_ENV === 'production';
 
 
@@ -25,6 +22,8 @@ if (!isProd) {
 app.use(express.json());
 app.use(cookieParser());
 
+
+
 app.use('/api/auth', authRoutes);
 app.use('/api/tasks', taskRoutes);
 app.get('/api/health', (_req, res) => res.json({ status: 'ok' }));
@@ -36,6 +35,10 @@ if (isProd) {
   const staticDir = fs.existsSync(browserDir) ? browserDir : fallbackDir;
 
   app.use(express.static(staticDir));
+
+  app.get('/', (req, res) => {
+  res.send('App is running');
+});
 
   // SPA fallback — any non-API route returns index.html
   app.get('*', (_req, res) => {
