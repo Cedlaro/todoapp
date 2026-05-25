@@ -1,9 +1,7 @@
 import mysql from 'mysql2/promise';
 
 export async function query<T>(sql: string, params: (string | number | null | boolean | Date)[] = []): Promise<T> {
-console.log("in",{
-   host:process.env.MYSQL_HOST
-});
+
 
   const connection = await mysql.createConnection({
     host: process.env.MYSQL_HOST,
